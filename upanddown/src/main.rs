@@ -23,6 +23,13 @@ fn unparsed(input: String) -> Next {
     }
 }
 
+fn get_message(result: &Next) -> &'static str {
+    match result {
+        Next::Continue(msg) => msg,
+        Next::Break(msg) => msg,
+    }
+}
+
 fn help() -> &'static str {
     "
     Guess the number between 1 and 100!
