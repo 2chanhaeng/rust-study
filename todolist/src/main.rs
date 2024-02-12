@@ -67,5 +67,9 @@ fn main() {
         "help" => {
             help();
         }
+        wrong => {
+            println!("{} is a wrong command.", wrong);
+            help();
+        }
     }
 }
