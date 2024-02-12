@@ -37,6 +37,10 @@ fn main() {
                 .exec(&conn)
                 .unwrap();
         }
+        "remove" => {
+            let id = args.args[0].parse::<i64>().unwrap();
+            let todo = Todo::delete().filter(Todo::id.eq(id)).exec(&conn).unwrap();
+        }
         "list" => {
             let todos = Todo::select().exec(&conn).unwrap();
             let todolist = todos
