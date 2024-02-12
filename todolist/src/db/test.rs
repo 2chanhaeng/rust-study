@@ -1,17 +1,11 @@
+use super::init::init;
 use crate::todo::Todo;
 use sequelite::connection::Executable;
 use sequelite::model::query::ColumnQueryFilterImpl;
 use sequelite::model::ModelExt;
-use sequelite::prelude::Connection;
 
 pub fn main() {
-    // Create new database connection
-    let mut conn = Connection::new("dev.db").unwrap();
-
-    // Ensure database schema is up to date
-    conn.register::<Todo>().unwrap();
-    conn.migrate();
-
+    let conn = init();
     // Create a new todos
     let _ = conn.insert(&[
         Todo {
