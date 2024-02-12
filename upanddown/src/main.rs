@@ -1,4 +1,4 @@
-use std::cmp::Ordering::{Equal, Greater, Less};
+use std::cmp::Ordering::{Greater, Less};
 use std::io;
 
 enum Next {
