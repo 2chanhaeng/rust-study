@@ -30,6 +30,28 @@ fn get_message(result: &Next) -> &'static str {
     }
 }
 
+fn handle_input(unparsed: fn(String) -> Next, parsed: fn(i8) -> Next) {
+    println!("Please input your guess.");
+
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+
+    print!("You guessed: {}", input);
+
+    let result: Next = input
+        .trim()
+        .parse()
+        .map_or_else(|_| unparsed(input), parsed);
+
+    println!("{}", get_message(&result));
+    match result {
+        Next::Break(_) => return,
+        _ => handle_input(unparsed, parsed),
+    };
+}
+
 fn help() -> &'static str {
     "
     Guess the number between 1 and 100!
@@ -42,23 +64,6 @@ fn help() -> &'static str {
 }
 
 fn main() {
-    loop {
-        println!("Please input your guess.");
-
-        let mut input = String::new();
-
-        io::stdin()
-            .read_line(&mut input)
-            .expect("Failed to read line");
-
-        let guess: u32 = match input.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-            }
-        };
-
-        println!("You guessed: {}", guess);
-
-    }
     println!("{}", help());
+    handle_input(unparsed, |n: i8| set_secret(&42)(n));
 }
