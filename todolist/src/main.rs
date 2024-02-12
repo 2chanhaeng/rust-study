@@ -10,6 +10,17 @@ use todolist::todo::Todo;
 use sequelite::connection::Executable;
 use sequelite::model::ModelExt;
 
+fn help() {
+    print!(
+        "
+- add < todo content > : add a todo
+- list : show todos
+- check < id >: check the todo
+- remove < id >: remove the todo
+- help : show this notice"
+    )
+}
+
 fn main() {
     let args = Cli::parse();
     let conn = init();
@@ -52,6 +63,9 @@ fn main() {
                 .collect::<Vec<String>>()
                 .join("\n");
             println!("{}", todolist)
+        }
+        "help" => {
+            help();
         }
     }
 }
