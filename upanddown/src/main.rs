@@ -7,6 +7,17 @@ enum Next {
     Break(&'static str),
 }
 
+fn help() -> &'static str {
+    "
+    Guess the number between 1 and 100!
+    - [ your guess ] > [ the number ]: 'Too big'
+    - [ your guess ] < [ the number ]: 'Too small'
+    - [ your guess ] = [ the number ]: 'You win!'
+    You can exit the game by typing 'exit'
+    You can get help by typing 'help'
+    "
+}
+
 fn main() {
     println!("Guess the number between 1 and 100!");
     println!("If your guess is greater than the number, it will say 'Too big'");
