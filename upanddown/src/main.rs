@@ -1,6 +1,12 @@
 use std::cmp::Ordering::{Equal, Greater, Less};
 use std::io;
 
+enum Next {
+    /// either a success or a failure
+    Continue(&'static str),
+    Break(&'static str),
+}
+
 fn main() {
     println!("Guess the number between 1 and 100!");
     println!("If your guess is greater than the number, it will say 'Too big'");
