@@ -7,6 +7,14 @@ enum Next {
     Break(&'static str),
 }
 
+fn set_secret(secret: &'static i8) -> Box<dyn Fn(i8) -> Next> {
+    Box::new(|guess: i8| match guess.cmp(secret) {
+        Less => Next::Continue("Too small"),
+        Greater => Next::Continue("Too big"),
+        _ => Next::Break("You win!"),
+    })
+}
+
 fn help() -> &'static str {
     "
     Guess the number between 1 and 100!
@@ -19,8 +27,6 @@ fn help() -> &'static str {
 }
 
 fn main() {
-    let secret_number = 42;
-
     loop {
         println!("Please input your guess.");
 
@@ -45,14 +51,6 @@ fn main() {
 
         println!("You guessed: {}", guess);
 
-        match guess.cmp(&secret_number) {
-            Less => println!("Too small!"),
-            Greater => println!("Too big!"),
-            Equal => {
-                println!("You win!");
-                break;
-            }
-        }
     }
     println!("{}", help());
 }
