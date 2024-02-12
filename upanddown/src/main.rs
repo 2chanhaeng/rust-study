@@ -19,12 +19,6 @@ fn help() -> &'static str {
 }
 
 fn main() {
-    println!("Guess the number between 1 and 100!");
-    println!("If your guess is greater than the number, it will say 'Too big'");
-    println!("If your guess is less than the number, it will say 'Too small'");
-    println!("If your guess is correct, it will say 'You win!'");
-    println!("You can exit the game by typing 'exit'");
-
     let secret_number = 42;
 
     loop {
@@ -60,4 +54,5 @@ fn main() {
             }
         }
     }
+    println!("{}", help());
 }
