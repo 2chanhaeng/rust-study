@@ -1,5 +1,6 @@
 extern crate todolist;
+use clap::Parser;
 
 fn main() {
-    todolist::db::test::main();
+    let args = Cli::parse();
 }
