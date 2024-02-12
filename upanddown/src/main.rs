@@ -15,6 +15,14 @@ fn set_secret(secret: &'static i8) -> Box<dyn Fn(i8) -> Next> {
     })
 }
 
+fn unparsed(input: String) -> Next {
+    match input.trim() {
+        "exit" => Next::Break("Exiting the game"),
+        "help" => Next::Continue(&help()),
+        _ => Next::Continue("Please enter a valid number"),
+    }
+}
+
 fn help() -> &'static str {
     "
     Guess the number between 1 and 100!
@@ -39,13 +47,6 @@ fn main() {
         let guess: u32 = match input.trim().parse() {
             Ok(num) => num,
             Err(_) => {
-                if guess.trim() == "exit" {
-                    println!("Goodbye!");
-                    break;
-                } else {
-                    println!("Please type a number!");
-                    continue;
-                }
             }
         };
 
