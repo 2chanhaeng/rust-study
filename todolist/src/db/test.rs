@@ -13,7 +13,7 @@ pub fn main() {
     conn.migrate();
 
     // Create a new todos
-    conn.insert(&[
+    let _ = conn.insert(&[
         Todo {
             id: None,
             content: "asd".to_string(),
