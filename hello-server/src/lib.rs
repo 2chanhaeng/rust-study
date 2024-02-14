@@ -5,4 +5,9 @@ impl ThreadPool {
         assert!(size > 0);
         ThreadPool
     }
+    pub fn execute<F>(&self, f: F)
+    where
+        F: FnOnce() + Send + 'static,
+    {
+    }
 }
