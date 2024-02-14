@@ -1,4 +1,6 @@
-pub struct ThreadPool;
+pub struct ThreadPool{
+    threads: Vec<thread::JoinHandle<()>>,
+};
 
 impl ThreadPool {
     pub fn new(size: usize) -> ThreadPool {
