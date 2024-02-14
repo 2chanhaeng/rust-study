@@ -1,13 +1,14 @@
-pub struct ThreadPool{
-    threads: Vec<thread::JoinHandle<()>>,
-};
 use std::thread;
 
+pub struct ThreadPool {
+    threads: Vec<Worker>,
+}
 
 impl ThreadPool {
     pub fn new(size: usize) -> ThreadPool {
         assert!(size > 0);
-        ThreadPool
+        let mut threads = 0..size.into_iter().map(|id| Worker::new(id));
+        ThreadPool { threads }
     }
     pub fn execute<F>(&self, f: F)
     where
