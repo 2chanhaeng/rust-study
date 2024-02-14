@@ -18,31 +18,24 @@ fn handle_connection(mut stream: TcpStream) {
     stream.read(&mut buffer).unwrap();
     let get_root = b"GET / HTTP/1.1\r\n";
 
-    if buffer.starts_with(get_root) {
-        let mut file = File::open("index.html").unwrap();
-        let mut contents = String::new();
-        file.read_to_string(&mut contents).unwrap();
-
-        let response = format!(
-            "HTTP/1.1 200 OK\r\nContent-Length: {}\r\n\r\n{}",
-            contents.len(),
-            contents
-        );
+    let (status_line, filename) = if buffer.starts_with(get_root) {
+        ("HTTP/1.1 200 OK", "index.html")
     } else {
-        let status_line = "HTTP/1.1 404 NOT FOUND";
-        let mut file = File::open("404.html").unwrap();
-        let mut contents = String::new();
+        ("HTTP/1.1 404 NOT FOUND", "404.html")
+    };
 
-        file.read_to_string(&mut contents).unwrap();
+    let mut file = File::open(filename).unwrap();
+    let mut contents = String::new();
 
-        let response = format!(
-            "{}\r\nContent-Length: {}\r\n\r\n{}",
-            status_line,
-            contents.len(),
-            contents
-        );
+    file.read_to_string(&mut contents).unwrap();
 
-        stream.write(response.as_bytes()).unwrap();
-        stream.flush().unwrap();
-    }
+    let response = format!(
+        "{}\r\nContent-Length: {}\r\n\r\n{}",
+        status_line,
+        contents.len(),
+        contents
+    );
+
+    stream.write(response.as_bytes()).unwrap();
+    stream.flush().unwrap();
 }
