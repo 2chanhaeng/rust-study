@@ -10,11 +10,19 @@ pub struct Worker {
 
 impl Worker {
     pub fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        let thread = thread::spawn(move || loop {
-            let job = receiver.lock().unwrap().recv().unwrap();
-            println!("Worker {} got a job; executing.", id);
-            job();
-        });
+        let thread = Some(thread::spawn(move || loop {
+            let message = receiver.lock().unwrap().recv();
+            match message {
+                Ok(job) => {
+                    println!("Worker {id} got a job; executing.");
+                    job();
+                }
+                Err(_) => {
+                    println!("Worker {id} disconnected; shutting down.");
+                    break;
+                }
+            }
+        }));
         Worker { id, thread }
     }
 }
