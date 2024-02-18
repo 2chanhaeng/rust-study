@@ -5,7 +5,7 @@ pub type Job = Box<dyn FnOnce() + Send + 'static>;
 
 pub struct Worker {
     pub id: usize,
-    pub thread: thread::JoinHandle<()>,
+    pub thread: Option<thread::JoinHandle<()>>,
 }
 
 impl Worker {
