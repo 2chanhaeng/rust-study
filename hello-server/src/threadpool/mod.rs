@@ -2,7 +2,7 @@ use crate::worker::{Job, Worker};
 use std::sync::{mpsc, Arc, Mutex};
 
 pub struct ThreadPool {
-    workers: Vec<Worker>,
+    pub workers: Vec<Worker>,
     sender: mpsc::Sender<Job>,
 }
 

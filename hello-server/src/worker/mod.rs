@@ -14,8 +14,8 @@ impl<F: FnOnce()> FnBox for F {
 pub type Job = Box<dyn FnBox + Send + 'static>;
 
 pub struct Worker {
-    id: usize,
-    thread: thread::JoinHandle<()>,
+    pub id: usize,
+    pub thread: thread::JoinHandle<()>,
 }
 
 impl Worker {
