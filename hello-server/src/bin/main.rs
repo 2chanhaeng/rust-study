@@ -5,7 +5,7 @@ use std::net::TcpStream;
 use std::thread;
 use std::time::Duration;
 extern crate hello_server;
-use hello_server::ThreadPool;
+use hello_server::threadpool::ThreadPool;
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
