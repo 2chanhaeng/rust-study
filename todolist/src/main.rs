@@ -18,7 +18,7 @@ fn help() {
 - check < id >: check the todo
 - remove < id >: remove the todo
 - help : show this notice"
-    )
+    );
 }
 
 fn main() {
@@ -34,15 +34,15 @@ fn main() {
             let todo = match result {
                 Ok(id) => {
                     let todo = Todo::select().with_id(id).exec(&conn).unwrap();
-                    format!("{:?}", todo)
+                    format!("{todo:?}")
                 }
                 _ => "Uh oh, something is wrong!".to_string(),
             };
-            println!("{}", todo)
+            println!("{todo}");
         }
         "check" => {
             let id = args.args[0].parse::<i64>().unwrap();
-            let todo = Todo::update()
+            Todo::update()
                 .filter(Todo::id.eq(id))
                 .set(Todo::done, true)
                 .exec(&conn)
@@ -50,7 +50,7 @@ fn main() {
         }
         "remove" => {
             let id = args.args[0].parse::<i64>().unwrap();
-            let todo = Todo::delete().filter(Todo::id.eq(id)).exec(&conn).unwrap();
+            Todo::delete().filter(Todo::id.eq(id)).exec(&conn).unwrap();
         }
         "list" => {
             let todos = Todo::select().exec(&conn).unwrap();
@@ -62,13 +62,13 @@ fn main() {
                 })
                 .collect::<Vec<String>>()
                 .join("\n");
-            println!("{}", todolist)
+            println!("{todolist}");
         }
         "help" => {
             help();
         }
         wrong => {
-            println!("{} is a wrong command.", wrong);
+            println!("{wrong} is a wrong command.");
             help();
         }
     }

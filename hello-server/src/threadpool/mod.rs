@@ -7,6 +7,10 @@ pub struct ThreadPool {
 }
 
 impl ThreadPool {
+    /// # Panics
+    ///
+    /// The `new` function will panic if the size is zero.
+    #[must_use]
     pub fn new(size: usize) -> ThreadPool {
         // todo:  -> Result<ThreadPool, PoolCreationError>
         assert!(size > 0);
@@ -21,6 +25,9 @@ impl ThreadPool {
             sender: Some(sender),
         }
     }
+    /// # Panics
+    ///
+    /// The `execute` function will panic if the thread pool has been dropped.
     pub fn execute<F>(&self, f: F)
     where
         F: FnOnce() + Send + 'static,

@@ -11,7 +11,6 @@ fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
     let max_threads = 4;
     let pool = ThreadPool::new(max_threads);
-
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
@@ -23,7 +22,7 @@ fn main() {
 
 fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 512];
-    stream.read(&mut buffer).unwrap();
+    stream.read_exact(&mut buffer).unwrap();
     let get_root = b"GET / HTTP/1.1\r\n";
     let get_sleep = b"GET /sleep HTTP/1.1\r\n";
 
@@ -48,6 +47,6 @@ fn handle_connection(mut stream: TcpStream) {
         contents
     );
 
-    stream.write(response.as_bytes()).unwrap();
+    stream.write_all(response.as_bytes()).unwrap();
     stream.flush().unwrap();
 }

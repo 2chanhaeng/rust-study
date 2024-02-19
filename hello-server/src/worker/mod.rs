@@ -9,18 +9,18 @@ pub struct Worker {
 }
 
 impl Worker {
+    /// # Panics
+    ///
+    /// Will panic if the receiver is poisoned.
     pub fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
         let thread = Some(thread::spawn(move || loop {
             let message = receiver.lock().unwrap().recv();
-            match message {
-                Ok(job) => {
-                    println!("Worker {id} got a job; executing.");
-                    job();
-                }
-                Err(_) => {
-                    println!("Worker {id} disconnected; shutting down.");
-                    break;
-                }
+            if let Ok(job) = message {
+                println!("Worker {id} got a job; executing.");
+                job();
+            } else {
+                println!("Worker {id} disconnected; shutting down.");
+                break;
             }
         }));
         Worker { id, thread }

@@ -1,6 +1,10 @@
 use crate::todo::Todo;
 use sequelite::prelude::Connection;
 
+/// # Panics
+///
+/// Will panic if the database schema is not up to date
+#[must_use]
 pub fn init() -> Connection {
     // Create new database connection
     let mut conn = Connection::new("dev.db").unwrap();

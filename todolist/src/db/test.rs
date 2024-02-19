@@ -1,9 +1,11 @@
 use super::init::init;
 use crate::todo::Todo;
 use sequelite::connection::Executable;
-use sequelite::model::query::ColumnQueryFilterImpl;
 use sequelite::model::ModelExt;
 
+/// # Panics
+///
+/// Will panic if the database schema is not up to date
 pub fn main() {
     let conn = init();
     // Create a new todos
@@ -20,12 +22,8 @@ pub fn main() {
         },
     ]);
 
-    // Get all todos whose content is "John"
-    let todos = Todo::select()
-        .filter(Todo::content.eq(&"asd"))
-        .exec(&conn)
-        .unwrap();
+    let todos = Todo::select().exec(&conn).unwrap();
 
     // Print all todos
-    println!("{:#?}", todos);
+    println!("{todos:#?}");
 }
